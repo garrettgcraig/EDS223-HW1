@@ -42,13 +42,13 @@ ejscreen <- sf::st_read(here::here("data", "ejscreen","EJSCREEN_2023_BG_StatePct
 
 ```{r}
 # filter to a state you are interested in
-new_mexico <- ejscreen %>%
+new_mexico <- ejscreen |> 
   dplyr::filter(ST_ABBREV == "NM") 
 
 # filter to a county you are interested in
-nm_counties_of_relevance <- ejscreen %>%
+nm_counties_of_relevance <- ejscreen |> 
   dplyr::filter(CNTY_NAME %in% c("Guadalupe County", "Lincoln County", "San Miguel County", "Socorro County", "Torrance County"))
 
 # find the average values for all variables within counties
-nm_counties_all <- aggregate(california, by = list(california$CNTY_NAME), FUN = mean)
+nm_counties_all <- aggregate(new_mexico, by = list(new_mexico$CNTY_NAME), FUN = mean)
 ```
