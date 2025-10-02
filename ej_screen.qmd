@@ -28,5 +28,27 @@ Quarto enables you to weave together content and executable code into a finished
 To learn more about Quarto see <https://quarto.org>.
 
 ```{r}
-1 + 1
+library(tidyverse)
+library(sf)
+library(here)
+```
+
+
+```{r}
+# read in geodatabase of EJScreen data at the Census Block Group level
+ejscreen <- sf::st_read(here::here("data", "ejscreen","EJSCREEN_2023_BG_StatePct_with_AS_CNMI_GU_VI.gdb"))
+```
+
+
+```{r}
+# filter to a state you are interested in
+new_mexico <- ejscreen %>%
+  dplyr::filter(ST_ABBREV == "NM") 
+
+# filter to a county you are interested in
+nm_counties_of_relevance <- ejscreen %>%
+  dplyr::filter(CNTY_NAME %in% c("Guadalupe County", "Lincoln County", "San Miguel County", "Socorro County", "Torrance County"))
+
+# find the average values for all variables within counties
+nm_counties_all <- aggregate(california, by = list(california$CNTY_NAME), FUN = mean)
 ```
